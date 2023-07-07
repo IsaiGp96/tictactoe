@@ -1,24 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tictactoe/botonera.dart';
+
+import 'botonera.dart';
 import 'config/config.dart';
 
 class Index extends StatefulWidget {
   const Index({Key? key}) : super(key: key);
 
   @override
-  State<Index> createState() => _IndexState();
+  // ignore: library_private_types_in_public_api
+  _IndexState createState() => _IndexState();
 }
 
 class _IndexState extends State<Index> {
   EstadosCelda estadoInicial = EstadosCelda.cross;
-  final Botonera botonera = const Botonera();
+  int contadorCruz = 0;
+  int contadorCirculo = 0;
+
+  void incrementarContador(EstadosCelda ganador) {
+    setState(() {
+      if (ganador == EstadosCelda.cross) {
+        contadorCruz++;
+      } else if (ganador == EstadosCelda.circle) {
+        contadorCirculo++;
+      }
+    });
+  }
+
+  void reiniciarJuego() {
+    // Restablecer el estado del juego
+    estados = List.filled(9, EstadosCelda.empty);
+    estadoInicial = EstadosCelda.cross;
+    resultado = {
+      EstadosCelda.circle: false,
+      EstadosCelda.cross: false,
+    };
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Botonera"),
+        title: const Text("Juego del Gato"),
         actions: [
+          Text("Cruz: $contadorCruz"),
+          Text("Círculo: $contadorCirculo"),
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == "Reiniciar") {
@@ -32,7 +59,7 @@ class _IndexState extends State<Index> {
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            estados = List.filled(9, EstadosCelda.empty);
+                            reiniciarJuego();
                           },
                           child: const Text("Sí"),
                         ),
@@ -92,22 +119,12 @@ class _IndexState extends State<Index> {
         child: Stack(
           children: <Widget>[
             Image.asset('imagenes/board.png'),
-            const Botonera(),
+            Botonera(
+              onGanador: incrementarContador,
+            ),
           ],
         ),
       ),
     );
-  }
-
-  void reiniciarJuego() {
-    // Restablecer el estado del juego
-    setState(() {
-      estados = List.filled(9, EstadosCelda.empty);
-      estadoInicial = EstadosCelda.cross;
-      resultado = {
-        EstadosCelda.circle: false,
-        EstadosCelda.cross: false,
-      };
-    });
   }
 }
