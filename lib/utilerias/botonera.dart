@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tictactoe/widgets/celda.dart';
+import 'package:flutter/services.dart';
 
-import 'config/config.dart';
+import '../config/config.dart';
+import '../widgets/celda.dart';
 
 class Botonera extends StatefulWidget {
   const Botonera({Key? key, required this.onGanador}) : super(key: key);
@@ -168,8 +169,7 @@ class BotoneraState extends State<Botonera> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                SystemNavigator.pop();
               },
               child: const Text('Salir'),
             ),
@@ -180,12 +180,14 @@ class BotoneraState extends State<Botonera> {
   }
 
   void mostrarPantallaEmergente(BuildContext context, EstadosCelda ganador) {
+    String nombreGanador =
+        ganador == EstadosCelda.cross ? "las cruces" : "los círculos";
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('¡Felicidades!'),
-          content: Text('Ganó el $ganador'),
+          content: Text('Ganaron $nombreGanador'),
           actions: [
             TextButton(
               onPressed: () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import '../config/config.dart';
 import 'botonera.dart';
-import 'config/config.dart';
 
 class Index extends StatefulWidget {
   const Index({Key? key}) : super(key: key);
@@ -65,7 +65,7 @@ class _IndexState extends State<Index> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            SystemNavigator.pop();
                           },
                           child: const Text("No"),
                         ),
